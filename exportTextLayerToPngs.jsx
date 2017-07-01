@@ -1,6 +1,5 @@
 ﻿//调用[Folder]的[selectDialog]命令，弹出文件夹选择窗口，提示用户选择输出web图片的文件夹，并将文件夹存储在变量[outputFolder]中。
 var outputFolder = Folder.selectDialog("选择输出的文件夹");
-
 //定义一个变量[doc]，表示当前文档。
 var doc = app.activeDocument;
 
@@ -18,7 +17,13 @@ pngOp.compression=7;
 pngOp.interlaced=false;
 
 var layer=doc.activeLayer;
+
 if(layer&&layer.kind==LayerKind.TEXT){
+    outputFolder=outputFolder+"/"+layer.name;
+    var folder1 = Folder(outputFolder);
+    if(!folder1.exists){
+        folder1.create();
+    }
     var textItemRef = layer.textItem;
     var str=textItemRef.contents;
     for(var i=0;i<str.length;i++){
